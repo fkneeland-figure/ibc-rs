@@ -43,20 +43,21 @@ if [[ -d $GAIA_DATA ]] && [[ ! "$3" == "skip" ]]; then
   fi
 fi
 
-# Ensure gaiad is installed
-if ! [ -x "$(which gaiad)" ]; then
-  echo "Error: gaiad is not installed. Try running 'make build-gaia'" >&2
+# Ensure provenanced is installed
+if ! [ -x "$(which provenanced)" ]; then
+  echo "Error: provenanced is not installed. Try running 'make build-gaia'" >&2
   exit 1
 fi
 
 # Display software version
+echo "PROVENANCED VERSION INFO: $(provenanced -t version --log_level info)"
 echo "GAIA VERSION INFO: $(gaiad version --log_level info)"
 
 # Delete data from old runs
-echo "Deleting $GAIA_DATA folder..."
-rm -rf "$GAIA_DATA"
+rm -rf "$GAIA_DATA" &> /dev/null
 
-# Stop existing gaiad processes
+# Stop existing provenanced processes
+killall provenanced &> /dev/null || true
 killall gaiad &> /dev/null || true
 killall akash &> /dev/null || true
 
@@ -77,11 +78,11 @@ CHAIN_0_SAMOLEANS=100000000000
 CHAIN_1_SAMOLEANS=100000000000
 CHAIN_2_SAMOLEANS=100000000000
 
-"$ONE_CHAIN" gaiad "$CHAIN_0_ID" ./data $CHAIN_0_RPC_PORT 26656 6060 $CHAIN_0_GRPC_PORT $CHAIN_0_SAMOLEANS
-"$ONE_CHAIN" gaiad "$CHAIN_1_ID" ./data $CHAIN_1_RPC_PORT 26556 6061 $CHAIN_1_GRPC_PORT $CHAIN_1_SAMOLEANS
+"$ONE_CHAIN" "provenanced -t" "$CHAIN_0_ID" ./data $CHAIN_0_RPC_PORT 26656 6060 $CHAIN_0_GRPC_PORT $CHAIN_0_SAMOLEANS "nhash" "1371"
+"$ONE_CHAIN" gaiad "$CHAIN_1_ID" ./data $CHAIN_1_RPC_PORT 26556 6061 $CHAIN_1_GRPC_PORT $CHAIN_1_SAMOLEANS "stake" "1318"
 
 if [ -n "$CHAIN_2_ID" ]; then
-  "$ONE_CHAIN" gaiad "$CHAIN_2_ID" ./data $CHAIN_2_RPC_PORT 26456 6062 $CHAIN_2_GRPC_PORT $CHAIN_2_SAMOLEANS
+  "$ONE_CHAIN" provenanced "$CHAIN_2_ID" ./data $CHAIN_2_RPC_PORT 26456 6062 $CHAIN_2_GRPC_PORT $CHAIN_2_SAMOLEANS
 fi
 
 [ -f "$GAIA_DATA/$CHAIN_0_ID.log" ] && echo "$CHAIN_0_ID initialized. Watch file $GAIA_DATA/$CHAIN_0_ID.log to see its execution."
