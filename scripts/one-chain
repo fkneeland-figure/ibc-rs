@@ -49,7 +49,7 @@ fi
 if [ -z "${10}" ]; then
   missing "[API_PORT]"
 fi
-if [ "$#" -gt 10 ]; then
+if [ "$#" -gt 11 ]; then
   echo "Incorrect number of parameters."
   usage
 fi
@@ -61,9 +61,10 @@ RPC_PORT=$4
 P2P_PORT=$5
 PROF_PORT=$6
 GRPC_PORT=$7
-SAMOLEANS=$8
-BONDING_TOKENS=$9
-API_PORT=${10}
+GRPC_WEB_PORT=$8
+SAMOLEANS=$9
+BONDING_TOKENS=${10}
+API_PORT=${11}
 
 echo "Creating $BINARY instance: home=$CHAIN_DIR | chain-id=$CHAIN_ID | p2p=:$P2P_PORT | rpc=:$RPC_PORT | profiling=:$PROF_PORT | grpc=:$GRPC_PORT | samoleans=:$SAMOLEANS | apiport=:$API_PORT"
 
@@ -160,7 +161,7 @@ fi
 
 # Start gaia
 echo "Start $BINARY on grpc port: $GRPC_PORT..."
-$BINARY --home $CHAIN_DIR/$CHAIN_ID start --pruning=nothing --grpc.address="0.0.0.0:$GRPC_PORT" --log_level error > $CHAIN_DIR/$CHAIN_ID.log 2>&1 &
+$BINARY --home $CHAIN_DIR/$CHAIN_ID start --pruning=nothing --grpc.address="0.0.0.0:$GRPC_PORT" --grpc-web.address="0.0.0.0:$GRPC_WEB_PORT" --log_level error > $CHAIN_DIR/$CHAIN_ID.log 2>&1 &
 
 # Show validator's and user's balance
 sleep 3
