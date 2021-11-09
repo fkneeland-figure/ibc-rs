@@ -28,7 +28,7 @@ pub enum Diagnostic {
     )]
     MismatchingSdkModuleVersion { requirements: String, found: String },
 
-    #[error("Ibc-Go module at version '{found}' does not meet compatibility requirements {requirements}")]
+    #[error("Ibc-Go module with our local changes at version '{found}' does not meet compatibility requirements {requirements}")]
     MismatchingIbcGoModuleVersion { requirements: String, found: String },
 }
 

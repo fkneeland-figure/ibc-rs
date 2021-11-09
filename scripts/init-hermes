@@ -64,16 +64,22 @@ cargo build -q --locked
 # add the key seeds to the keyring of each chain
 echo "Importing keys..."
 
-#cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys add "$CHAIN_0_ID" -f "$GAIA_DATA/$CHAIN_0_ID/user_seed.json"
-#echo "user 2"
-#cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys add "$CHAIN_0_ID" -f "$GAIA_DATA/$CHAIN_0_ID/user2_seed.json" -n user2
+cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys add "$CHAIN_0_ID" -f "$GAIA_DATA/$CHAIN_0_ID/user_seed.json"
+echo "user 2"
+cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys add "$CHAIN_0_ID" -f "$GAIA_DATA/$CHAIN_0_ID/user2_seed.json" -n user2
+
+#SEED=$(cat "$GAIA_DATA/$CHAIN_0_ID/user_seed.json" | jq -r .mnemonic)
+#echo "$SEED"
+#cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys restore "$CHAIN_0_ID" --mnemonic  "$SEED"
+#SEED2=$(cat "$GAIA_DATA/$CHAIN_0_ID/user2_seed.json" | jq -r .mnemonic)
+#cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys restore "$CHAIN_0_ID" --mnemonic "$SEED2" -n user2
 
 
-SEED=$(cat "$GAIA_DATA/$CHAIN_0_ID/user_seed.json" | jq -r .mnemonic)
-echo "$SEED"
-cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys restore "$CHAIN_0_ID" --mnemonic  "$SEED"
-SEED2=$(cat "$GAIA_DATA/$CHAIN_0_ID/user2_seed.json" | jq -r .mnemonic)
-cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys restore "$CHAIN_0_ID" --mnemonic "$SEED2" -n user2
+#SEED=$(cat "$GAIA_DATA/$CHAIN_0_ID/user_seed.json" | jq -r .mnemonic)
+#echo "$SEED"
+#cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys restore "$CHAIN_0_ID" --mnemonic  "$SEED"
+#SEED2=$(cat "$GAIA_DATA/$CHAIN_0_ID/user2_seed.json" | jq -r .mnemonic)
+#cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys restore "$CHAIN_0_ID" --mnemonic "$SEED2" -n user2
 
 echo "$GAIA_DATA/$CHAIN_1_ID"
 cargo run -q --bin hermes -- -c "$CONFIG_FILE" keys add "$CHAIN_1_ID" -f "$GAIA_DATA/$CHAIN_1_ID/user_seed.json"
