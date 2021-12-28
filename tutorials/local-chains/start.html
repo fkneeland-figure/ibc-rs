@@ -318,8 +318,8 @@ store_prefix = 'ibc'
 default_gas = 100000
 
 # Specify the maximum amount of gas to be used as the gas limit for a transaction.
-# Default: 400 000
-max_gas = 400000
+# Default: 300 000
+max_gas = 300000
 
 # Specify the price per gas used of the fee to submit a transaction and
 # the denomination of the fee. Required
@@ -386,12 +386,6 @@ memo_prefix = ''
 #   ['transfer', 'channel-0'],
 # ]
 
-# Specify that the transaction fees should be payed from this fee granter's account.
-# Optional. If unspecified (the default behavior), then no fee granter is used, and
-# the account specified in `key_name` will pay the tx fees for all transactions
-# submitted to this chain.
-# fee_granter = ''
-
 [[chains]]
 id = 'ibc-1'
 rpc_addr = 'http://127.0.0.1:26557'
@@ -402,7 +396,7 @@ account_prefix = 'cosmos'
 key_name = 'testkey'
 store_prefix = 'ibc'
 default_gas = 100000
-max_gas = 400000
+max_gas = 3000000
 gas_price = { price = 0.001, denom = 'stake' }
 gas_adjustment = 0.1
 max_msg_num = 30
