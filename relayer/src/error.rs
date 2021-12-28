@@ -480,6 +480,7 @@ define_error! {
             },
 
         SdkModuleVersion
+        // We don't want this...
             {
                 chain_id: ChainId,
                 address: String,
