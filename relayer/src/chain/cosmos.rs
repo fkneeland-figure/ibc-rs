@@ -94,7 +94,6 @@ use crate::{
 
 use super::{ChainEndpoint, HealthCheck};
 
-mod compatibility;
 pub mod version;
 
 /// Default gas limit when submitting a transaction.
@@ -2313,15 +2312,6 @@ async fn do_health_check(chain: &CosmosSdkChain) -> Result<(), Error> {
         })?;
 
     let version_specs = fetch_version_specs(&chain.config.id, &chain.grpc_addr).await?;
-
-    // Checkup on the underlying SDK & IBC-go versions
-    if let Err(diagnostic) = compatibility::run_diagnostic(&version_specs) {
-        return Err(Error::sdk_module_version(
-            chain_id.clone(),
-            grpc_address.clone(),
-            diagnostic.to_string(),
-        ));
-    }
 
     Ok(())
 }
